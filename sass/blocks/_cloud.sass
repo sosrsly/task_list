@@ -1,0 +1,72 @@
+.cloud
+    position: relative
+    &__title
+        width: 374px
+        height: 63px
+        position: absolute
+        top: 80px
+        left: 50%
+        transform: translateX(-50%)
+        z-index: 5
+
+    &__wrapper 
+        display: flex
+
+    &__storage
+        position: relative
+        display: flex
+        flex-direction: column
+        width: 960px
+        height: 580px
+        background: url("/img/cloud.png")
+
+    &__subtitle 
+        color: #ffffff
+        font-size: 30px
+        font-weight: 900
+        line-height: 22px
+        text-transform: uppercase
+        margin-top: 270px
+        &_server
+            margin-left: 80px
+        &_storage
+            margin-left: 515px
+
+    &__descr 
+        width: 485px
+        height: 45px
+        color: #ffffff
+        font-size: 18px
+        font-weight: 300
+        line-height: 26px
+        margin-top: 20px
+        text-align: center
+        &_storage
+            margin-left: 395px
+        &_server
+            margin-left: 80px
+
+
+    &__server
+        position: relative
+        width: 960px
+        height: 580px
+        background: url("/img/server.png")
+        display: flex
+        flex-direction: column
+
+    &__server-square
+        bottom: 180px
+        left: 45px
+
+    &__storage-square
+        bottom: 180px
+        right: 45px
+
+
+.square
+    position: absolute
+    width: 167px
+    height: 167px
+    background-color: #00c2f0
+    opacity: 0.3

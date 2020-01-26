@@ -1,115 +1,115 @@
+window.addEventListener("DOMContentLoaded", () => {
+  'use strict';
+  //modal 
+  const buttons = document.querySelectorAll("button");
+  const overlay = document.querySelector(".overlay");
+  const modal = document.querySelector("#modal-consultation");
+  const close = document.querySelectorAll(".close");
+  const modalButton = document.querySelector(".modal__button");
+  const modalThanks = document.querySelector("#modal-thanks");
 
-// const tasks = [
-//     {
-//       _id: '5d2ca9e2e03d40b326596aa7',
-//       completed: true,
-//       body:
-//         'Occaecat non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n',
-//       title: 'Eu ea incididunt sunt consectetur fugiat non.',
-//     },
-//     {
-//       _id: '5d2ca9e29c8a94095c1288e0',
-//       completed: false,
-//       body:
-//         'Aliquip cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n',
-//       title:
-//         'Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum.',
-//     },
-//     {
-//       _id: '5d2ca9e2e03d40b3232496aa7',
-//       completed: true,
-//       body:
-//         'Occaecat non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n',
-//       title: 'Eu ea incididunt sunt consectetur fugiat non.',
-//     },
-//     {
-//       _id: '5d2ca9e29c8a94095564788e0',
-//       completed: false,
-//       body:
-//         'Aliquip cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n',
-//       title:
-//         'Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum.',
-//     },
-//   ];
+  buttons[0].addEventListener("click", openModalWindow);
+  buttons[1].addEventListener("click", openModalWindow);
+  modalButton.addEventListener("click", openModalThanks);
+  close[0].addEventListener("click", hideModalWindow);
+  close[1].addEventListener("click", hideModalWindow);
+
+  function openModalWindow() {
+    overlay.style.display = "block";
+    modal.style.display = "block";
+    document.body.style.overflow = "hidden";
+  }
+
+  function hideModalWindow() {
+    overlay.style.display = "";
+    modal.style.display = "";
+    modalThanks.style.display = "";
+    document.body.style.overflow = "";
+  }
+
+  function openModalThanks(e) {
+    e.preventDefault();
+    modal.style.display = "";
+    modalThanks.style.display = "block";
+  }
+
+  //slider, tabs
+  const tabWrapper = document.querySelector(".info__header");
+  const tabs = document.querySelectorAll(".info__tab");
+  const content = document.querySelectorAll(".info__tab-content");
+  const next = document.querySelector(".arrow-right");
+  const prev = document.querySelector(".arrow-left");
+  let currentSlide = 0;
+
+  showContent(currentSlide);
+
+  function showContent(n) {
+    if (n > content.length - 1) {
+      n = 0;
+    } else if (n < 0) {
+      n = content.length - 1;
+    }
+
+    for (let i = 0; i < content.length; i++) {
+      content[i].classList.add("hidden");
+      content[i].classList.remove("show");
+      tabs[i].classList.remove("info__tab_active");
+    }
+    content[n].classList.remove("hidden");
+    content[n].classList.add("show");
+    tabs[n].classList.add("info__tab_active");
+    currentSlide = n;
+  }
 
 
-
-  const form = document.querySelector(".task-form");
-  const taskBtn = form.querySelector("#form-button");
-  const listBtn = form.querySelector("#task-button");
-  const inputTitle = document.querySelector("[name = title]");
-  const inputBody = form.querySelector("[name = body]");
-  const listItem = document.querySelector(".list-items");
-
-  // addItemsInTaskList(tasks);
-
-  form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      let titleValue = inputTitle.value;
-      let bodyValue = inputBody.value;
-      console.log(titleValue, bodyValue);
-      let newElem = createNewElement(titleValue, bodyValue);
-      listItem.prepend(newElem);
-      form.reset();
-  });
-
-  listItem.addEventListener("click", ({target}) => {
-    console.log(target);
-    if (target.classList.contains("button")) {
-      let answer = confirm("r u sure?");
-      if (answer) {
-        let parent = target.parentElement;
-        parent.remove();
-        checkContentsListItem();
+  tabWrapper.addEventListener("click", e => {
+    if (e.target.classList.contains("info__tab")) {
+      for (let i = 0; i < tabs.length; i++) {
+        if (e.target == tabs[i]) {
+          showContent(i);
+          break;
+        }
       }
     }
   });
 
-  function addItemsInTaskList(tasks) {
-    let fragment = new DocumentFragment();
-    tasks.forEach((item) => {
-        fragment.append(listItemTemplate(item));
-    });
-    listItem.append(fragment);
+  function plusSlide(n) {
+    showContent(currentSlide += n);
   }
+  next.addEventListener("click", e => {
+    plusSlide(1);
+  });
+  prev.addEventListener("click", e => {
+    plusSlide(-1);
+  });
 
-  function listItemTemplate({body, title:t, _id} = {}) {
-    let list = document.createElement("li");
-    list.className = "list";
+// pageup
+const pageUp = document.querySelector(".pageup");
 
-    const title = document.createElement("div");
-    title.className = "list__title";
-    title.textContent = t;
-
-    const descr = document.createElement("div");
-    descr.className = "list__descr";
-    descr.textContent = body;
-
-    const button = document.createElement("button");
-    button.className = "button button__color_red";
-    button.textContent = "Test";
-
-    const label = document.createElement("div");
-    label.className = "list__label";
-
-    list.append(title);
-    list.append(descr);
-    list.append(button);
-    list.append(label);
-    list.setAttribute("data-id", _id);
-    return list;
+window.addEventListener("scroll", (e) => {
+  if (window.pageYOffset > 1800) {
+    pageUp.style.display = "block";
+  } else {
+    pageUp.style.display = "";
   }
+});
+pageUp.addEventListener("click", () => {
+  window.scrollTo({ 
+    top: 0, 
+    behavior: 'smooth'
+  });
+});
 
-  function createNewElement(title, body) {
-    const elemObj = {
-      title,
-      body,
-      completed: false,
-      _id: `fromForm-${Math.random()}`,
-    };
-    return listItemTemplate(elemObj);
-  }
 
-  function checkContentsListItem() {
-    
-  }
+
+  
+  
+
+
+
+
+
+
+});
+
+  
